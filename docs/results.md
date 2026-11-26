@@ -1,6 +1,6 @@
 # Results
 
-Measured 2026-11-23 on Aurora DX 45, i5-1135G7, kernel 7.2.11.
+Measured 2026-11-26 on Aurora DX 45, i5-1135G7, kernel 7.2.11.
 **Linux reference harness only** (`mmap`/`mprotect` + `/proc/<pid>/mem`). This is
 not the Windows run and does not substitute for it.
 
