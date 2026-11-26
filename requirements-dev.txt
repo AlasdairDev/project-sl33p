@@ -1,0 +1,4 @@
+# Development requirements
+pytest>=8.0
+PyYAML>=6.0
+cryptography>=42.0

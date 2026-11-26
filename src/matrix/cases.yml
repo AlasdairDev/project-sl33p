@@ -1,0 +1,69 @@
+# Technique x detector expectations.
+#
+# kind: core    -> spawn sl33p-core with these flags and hunt it
+# kind: control -> spawn an ordinary Windows app and require zero findings
+#
+# expected is the set of detector families that must fire for the case to be
+# scored as caught. A family that fires but is not listed is still reported.
+
+cases:
+  - name: baseline_plain_rw
+    kind: core
+    technique: "baseline: plaintext marker, no protection change"
+    mode: plain
+    protect: rw
+    awake_seconds: 3
+    sleep_seconds: 10
+    expected: [D1]
+
+  - name: obf_rw
+    kind: core
+    technique: "AES-256-GCM in place, pages stay RW"
+    mode: encrypt
+    protect: rw
+    awake_seconds: 3
+    sleep_seconds: 12
+    expected: [D2, D6]
+
+  - name: obf_noaccess
+    kind: core
+    technique: "AES-256-GCM in place + PAGE_NOACCESS"
+    mode: encrypt
+    protect: noaccess
+    awake_seconds: 3
+    sleep_seconds: 12
+    # D5 fires as corroboration at 0.35, deliberately below the 0.6 scoring
+    # threshold: it is a confidence booster, not a standalone detector.
+    expected: [D3, D4]
+
+  - name: obf_rx
+    kind: core
+    technique: "AES-256-GCM in place + PAGE_EXECUTE_READ"
+    mode: encrypt
+    protect: rx
+    awake_seconds: 3
+    sleep_seconds: 12
+    expected: [D2, D3]
+
+  - name: control_notepad
+    kind: control
+    technique: "control: ordinary app, no obfuscation"
+    process: notepad.exe
+    sleep_seconds: 10
+    expected: []
+
+  - name: control_bash
+    kind: control
+    technique: "control: idle bash, no obfuscation"
+    process: bash.exe
+    process_linux: ["bash", "-c", "while :; do sleep 1; done"]
+    sleep_seconds: 8
+    expected: []
+
+  - name: control_python
+    kind: control
+    technique: "control: idle python3, high-entropy heap"
+    process: python.exe
+    process_linux: ["python3", "-c", "import time; time.sleep(300)"]
+    sleep_seconds: 8
+    expected: []

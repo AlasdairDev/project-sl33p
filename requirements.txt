@@ -1,0 +1,6 @@
+# Runtime requirements (matrix runner only; the hunter uses the stdlib)
+PyYAML>=6.0
+
+# Optional: enables detector D6 (key recovery) and the capture generator.
+# Without it the hunter still runs, and D6 is reported as unavailable.
+cryptography>=42.0

@@ -1,0 +1,96 @@
+<!--
+  Reference domain for the sl33p lab. Session libvirt, UEFI, TPM 2.0.
+
+  The <interface> block is for the install phase only. Remove it (or detach it
+  with `virsh detach-interface`) before taking `baseline-offline`. An offline VM
+  has no interface at all.
+
+  Import with:
+    virsh -c qemu:///session define lab/domain.xml
+
+  Paths are absolute on purpose and must be edited before defining: a stale source path is the most common reason a
+  VM will not start after the disk moves.
+-->
+<domain type='kvm'>
+  <name>sl33p-win11</name>
+  <memory unit='MiB'>4096</memory>
+  <vcpu placement='static'>4</vcpu>
+
+  <os firmware='efi'>
+    <type arch='x86_64' machine='q35'>hvm</type>
+    <boot dev='hd'/>
+  </os>
+
+  <features>
+    <acpi/>
+    <apic/>
+    <hyperv mode='custom'>
+      <relaxed state='on'/>
+      <vapic state='on'/>
+      <spinlocks state='on' retries='8191'/>
+      <vpindex state='on'/>
+      <synic state='on'/>
+      <stimer state='on'/>
+    </hyperv>
+  </features>
+
+  <cpu mode='host-passthrough' check='none' migratable='on'/>
+
+  <clock offset='localtime'>
+    <timer name='rtc' tickpolicy='catchup'/>
+    <timer name='pit' tickpolicy='delay'/>
+    <timer name='hpet' present='no'/>
+    <timer name='hypervclock' present='yes'/>
+  </clock>
+
+  <devices>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2' cache='writeback' discard='unmap'/>
+      <source file='/home/user/lab/vms/sl33p-win11.qcow2'/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='/home/user/lab/isos/virtio-win.iso'/>
+      <target dev='sda' bus='sata'/>
+      <readonly/>
+    </disk>
+
+    <!-- Shared source tree. Requires WinFsp + virtiofs in the guest. -->
+    <filesystem type='mount' accessmode='passthrough'>
+      <driver type='virtiofs' queue='1024'/>
+      <source dir='/home/user/lab/sl33p'/>
+      <target dir='sl33p'/>
+    </filesystem>
+
+    <!-- INSTALL ONLY. Delete this block for the offline lab. -->
+    <interface type='user'>
+      <model type='virtio'/>
+    </interface>
+
+    <graphics type='spice' autoport='yes'>
+      <listen type='address' address='127.0.0.1'/>
+    </graphics>
+
+    <video>
+      <model type='virtio' heads='1' primary='yes'/>
+    </video>
+
+    <tpm model='tpm-crb'>
+      <backend type='emulator' version='2.0'/>
+    </tpm>
+
+    <channel type='spicevmc'>
+      <target type='virtio' name='com.redhat.spice.0'/>
+    </channel>
+
+    <channel type='unix'>
+      <target type='virtio' name='org.qemu.guest_agent.0'/>
+    </channel>
+
+    <rng model='virtio'>
+      <backend model='random'>/dev/urandom</backend>
+    </rng>
+  </devices>
+</domain>

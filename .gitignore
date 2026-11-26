@@ -1,0 +1,32 @@
+# build output
+bin/
+obj/
+*.user
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# generated evidence (keep the directory, not the artefacts)
+report/out*/
+lab/captures/*.json
+!lab/captures/.gitkeep
+
+# editor / os
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# scratch
+*.log
+
+# stray zero-byte file from the initial working directory
+/z
+
+# local build brief, not part of the published repo
+/PROMPT.md
