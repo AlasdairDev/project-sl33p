@@ -1,4 +1,4 @@
-# Host setup — Aurora DX
+# Host setup: Aurora DX
 
 > Paths below are this machine's. Substitute your own when reproducing;
 > `lab/create-vm.sh` defaults to `$HOME/lab/vms` and takes `VM_DIR`.
@@ -16,7 +16,7 @@ layered with `rpm-ostree` unless there is no alternative.
 | Kernel | 7.2.11-300.fc45.x86_64 | OK |
 | CPU | i5-1135G7, 4C/8T, VT-x, bare metal | OK |
 | KVM | `/dev/kvm` present, mode `crw-rw-rw-` | OK |
-| Groups | `libvirt`, `docker`, `incus-admin` | OK — DX already provisioned |
+| Groups | `libvirt`, `docker`, `incus-admin` | OK, DX already provisioned |
 | Virtualisation | `virt-manager`, `qemu-system-x86_64`, `virt-install`, `qemu-img` | OK |
 | Shared folders | `virtiofsd` at `/usr/libexec/virtiofsd` | OK |
 | Existing VM | `owasp-bwa`, running, user session, 1 GiB, user networking | Reference pattern |

@@ -9,7 +9,7 @@ namespace Sl33p;
 /// This is intentionally the weak point of the technique and the basis of
 /// detector D6: the key has to stay somewhere while the payload is encrypted.
 /// A detector that finds this block can decrypt the dormant region and prove
-/// what it was. That finding is a feature of the lab, not a bug to hide.
+/// what it was. That finding is reported, not hidden.
 /// </summary>
 internal sealed unsafe class CryptoHeader : IDisposable
 {

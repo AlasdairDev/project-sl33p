@@ -1,7 +1,7 @@
-"""Scoring: turn detector output into caught/missed, with the truth kept honest.
+"""Scoring: turn detector output into caught/missed against ground truth.
 
 The runner knows where the region really is (it launched the process). The
-hunter does not. That asymmetry is the point: score the hunter's blind output
+hunter does not. The scoring uses that asymmetry: the hunter's blind output is
 against ground truth the hunter never saw.
 """
 

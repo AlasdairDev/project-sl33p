@@ -13,7 +13,7 @@ In scope for this repository:
 - the matrix runner and its cases
 - the lab documentation
 
-Out of scope, by design and permanently: process injection, remote threads,
+Out of scope, permanently: process injection, remote threads,
 persistence, C2, credential access, anti-debug/anti-VM, kernel components, or
 any option that points the tool at a process it did not start. Requests to add
 those are declined; see `docs/scope.md`.
@@ -26,7 +26,7 @@ Open an issue for:
 - a false positive or false negative in the detector, with the case and evidence
 - a documentation error
 
-Do not open an issue asking for evasion improvements. That is not a bug in this
+Do not open an issue asking for evasion improvements. That is not a flaw in this
 project; it is a different project.
 
 Please do not include third-party data, credentials, or captures from machines

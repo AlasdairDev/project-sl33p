@@ -12,8 +12,7 @@ Get-Process sl33p-core -ErrorAction SilentlyContinue | Stop-Process -Force
 Get-Process sl33p-core -ErrorAction SilentlyContinue   # expect: nothing
 ```
 
-If the process is wedged in `NOACCESS` on its own stack, it cannot respond —
-that is a bug in the core, not a feature. Terminate it.
+If the process is wedged in `NOACCESS` on its own stack, it cannot respond. That is a bug in the core, not a feature. Terminate it.
 
 ## 2. Stop the VM
 
@@ -86,8 +85,7 @@ Rebuild from scratch if:
 - you cannot explain a process, service or scheduled task you did not create;
 - the network configuration does not match `lab/snapshots.md`.
 
-The rebuild is cheap: `lab/create-vm.sh`, install, snapshot. That is the point of
-keeping the setup as code.
+The rebuild is cheap: `lab/create-vm.sh`, install, snapshot. That is why the setup is kept as code.
 
 ## What the kill switch does not cover
 

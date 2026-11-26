@@ -1,4 +1,4 @@
-# VM setup — Windows 11 lab
+# VM setup: Windows 11 lab
 
 Goal: one offline Windows 11 VM, 4 vCPU / 4 GiB, session libvirt, qcow2 on the
 external volume, snapshots before every run, with the repo visible inside.
@@ -114,7 +114,7 @@ python src\hunt\sl33p_hunt.py --pid <pid> --duration 20 --html out.html
 
 Expected: `D1-marker` at the region address, verdict `DETECTED`.
 
-## 5. Add Defender exclusions — and disclose them
+## 5. Add Defender exclusions, and disclose them
 
 Windows Defender will eventually quarantine a binary that allocates executable
 memory, flips protections and holds a high-entropy buffer. That is correct

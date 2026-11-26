@@ -14,9 +14,9 @@ not the Windows run and does not substitute for it.
 | `obf_rw` | AES-256-GCM in place, pages stay RW | D2, D6 | D1, D2, D6 | 0.0 |
 | `obf_noaccess` | AES-GCM + `PROT_NONE` | D3, D4 | D1, D3, D4 | 0.0 |
 | `obf_rx` | AES-GCM + `r-x` | D2, D3 | D1, D2, D3, D6 | 0.0 |
-| `control_notepad` | idle `sleep` (Windows: Notepad) | — | — | — |
-| `control_bash` | idle bash loop | — | — | — |
-| `control_python` | idle python3, high-entropy heap | — | — | — |
+| `control_notepad` | idle `sleep` (Windows: Notepad) | - | - | - |
+| `control_bash` | idle bash loop | - | - | - |
+| `control_python` | idle python3, high-entropy heap | - | - | - |
 
 **7/7 caught, 3/3 controls clean.**
 
@@ -30,7 +30,7 @@ not the Windows run and does not substitute for it.
 - **Detection does not need the signature.** `--no-marker` disables D1 entirely
   and the `rw` case is still caught by D2 and D6 (covered by a live test).
 - `D5` fires in `obf_noaccess` at 0.35 confidence; it is a booster and sits
-  below the 0.6 scoring threshold by design.
+  below the 0.6 scoring threshold.
 
 ## Defects the live run found that unit tests could not
 
@@ -51,7 +51,7 @@ not the Windows run and does not substitute for it.
 | Behaviour | Windows | Linux |
 |---|---|---|
 | `ReadProcessMemory`/`/proc/pid/mem` on `PAGE_NOACCESS`/`PROT_NONE` | fails (`ERROR_PARTIAL_COPY 299`) | **succeeds** via `FOLL_FORCE` when `ptrace_scope=0` |
-| Hunter behaviour | content rules blind in `noaccess` | content rules deliberately blind too (honours the attribute) |
+| Hunter behaviour | content rules blind in `noaccess` | content rules blind too (the attribute is honoured) |
 | Decrypted buffer zeroisation | in-place into the protected page, scratch zeroed | `bytearray` wiped, but the interpreter may retain copies |
 
 ## Windows

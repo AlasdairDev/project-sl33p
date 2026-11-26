@@ -32,7 +32,7 @@ cases:
     protect: noaccess
     awake_seconds: 3
     sleep_seconds: 12
-    # D5 fires as corroboration at 0.35, deliberately below the 0.6 scoring
+    # D5 fires as corroboration at 0.35, below the 0.6 scoring
     # threshold: it is a confidence booster, not a standalone detector.
     expected: [D3, D4]
 

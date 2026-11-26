@@ -38,7 +38,7 @@ $V start $VM
 ```
 
 A revert discards the current disk state, including anything you forgot to copy
-out. That is the point, and also the hazard.
+out. That is both the benefit and the hazard.
 
 ## Inspect and clean up
 
@@ -70,7 +70,7 @@ optional.
 
 ## Matrix hygiene
 
-The runner does not snapshot automatically — snapshotting from inside a run is
+The runner does not snapshot automatically. Snapshotting from inside a run is
 how you end up with nested snapshots and a 200 GB qcow2. The discipline is:
 
 ```bash
@@ -85,7 +85,7 @@ before touching anything else.
 
 ## Verify a snapshot is usable
 
-A snapshot you have never reverted is a hope, not a backup. Once, deliberately:
+A snapshot you have never reverted is a hope, not a backup. Do it once:
 
 ```bash
 $V snapshot-revert $VM baseline-offline

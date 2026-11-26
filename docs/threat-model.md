@@ -1,6 +1,6 @@
 # Threat model
 
-Short by design. The useful output of this document is the list of things the
+Kept short. The useful output of this document is the list of things the
 project cannot do, and the controls that keep it that way.
 
 ## Assets
@@ -43,7 +43,7 @@ host (Aurora DX) ── libvirt ──▶ VM (Windows 11, offline)
 |---|---|---|
 | Repo repurposed as an evasion component | No target argument, no config file, fixed 64 KiB region, marker-only payload, `--lab-ack` required, publication guardrails in `scope.md` | Someone could re-implement the same 200 lines; they would not need this repo |
 | Hunter aimed at a real process | PID is required and caller-supplied; refuses PID 0/4 and itself; read-only | A user can still point it at any process they can open; it only reads and reports |
-| Accidental damage to the host | Everything runs in the VM; no host binaries, no root, session libvirt only | A misconfigured share could expose the repo to the VM; share is read-write by design for the dev loop |
+| Accidental damage to the host | Everything runs in the VM; no host binaries, no root, session libvirt only | A misconfigured share could expose the repo to the VM; share is read-write for the dev loop |
 | False accusation from the detector | FP measurement against control apps; confidence, not verdicts; every finding carries evidence | High-entropy .NET heaps remain the main source of noise |
 | Overclaiming in the write-up | README states the technique covered and the one excluded; matrix is the only source of claims | A reader may still skim |
 
@@ -54,8 +54,8 @@ finds a key-shaped blob, validates the GCM tag and decrypts the region. That is
 not a flaw to patch away in this design; it is the reason the project is
 interesting.
 
-If a future version tried to fix it — key wrapping, key in a different process,
-key derived and destroyed — each of those would be a new offensive capability
+If a future version tried to fix it (key wrapping, key in a different process,
+key derived and destroyed), each of those would be a new offensive capability
 and would need its own detector, test and scope review. None are planned.
 
 ## What this project cannot do

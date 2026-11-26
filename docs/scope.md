@@ -29,7 +29,7 @@ It does **not** claim to detect Ekko, Cobalt Strike, or any real implant.
 - A matrix runner, JSON evidence, and an offline HTML report.
 - Documentation of the lab, the threat model and the limits.
 
-## Out of scope — and not negotiable
+## Out of scope, and not negotiable
 
 - Process injection of any kind, remote threads, `CreateRemoteThread`,
   `QueueUserAPC`, thread hijacking.

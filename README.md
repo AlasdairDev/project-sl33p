@@ -109,7 +109,7 @@ Full table and the defects the live runs found: [docs/results.md](docs/results.m
 - Masking the bytes does not hide the behaviour. `NOACCESS` still loses to
   D3/D4, which read metadata only.
 - The key stays in memory while the payload is sealed. D6 finds it and decrypts
-  the region. That is the interesting result, not a bug to hide.
+  the region. That is the result the project is about, and it is reported.
 - Linux `/proc/pid/mem` can read `PROT_NONE` pages. The hunter honours the
   protection attribute anyway, so the rule outcomes match the Windows design.
   The Python core cannot guarantee zeroisation like the C# core can.

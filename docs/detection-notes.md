@@ -15,15 +15,15 @@ bits/byte at t=0 and 7.99 at t=1, in a process using no CPU, is interesting.
 
 ### The baseline problem
 
-This is a design constraint, not a bug: **a detector that first sees the target
+This is a constraint of the design: **a detector that first sees the target
 after it is already asleep cannot measure an entropy delta.** The baseline would
 itself be ciphertext, and D2 would correctly report "no change".
 
 That is why the core has an `--awake` window and why the matrix starts the
 hunter on `ready`, not on `asleep`. It models an always-on monitor, which is the
 realistic deployment. A hunter launched mid-sleep falls back to D3/D4 (metadata)
-and D6 (if the pages are readable) — still useful, but the D2 row becomes a
-dash, and the report should say so rather than pretend otherwise.
+and D6 (if the pages are readable), still useful, but the D2 row becomes a
+dash. The report should say so.
 
 ## Why absolute entropy is the wrong rule
 
@@ -38,7 +38,7 @@ signal.
 
 ## Rules
 
-### D1 — marker (confidence 0.99)
+### D1: marker (confidence 0.99)
 
 Scans readable private regions for the 24-byte marker. Evidence: absolute
 offsets of up to three hits, hit count, bytes scanned.
@@ -46,10 +46,10 @@ offsets of up to three hits, hit count, bytes scanned.
 - Fires: baseline case, and the wake tick of every encrypted case.
 - Misses: while the region is encrypted or unreadable.
 - False positives: effectively none, because the marker is a 24-byte literal.
-  A detector that hard-codes a marker is not general — this one is honest about
+  A detector that hard-codes a marker is not general. This one is explicit about
   being format-aware.
 
-### D2 — entropy delta (0.80 / 0.50 / 0.70)
+### D2: entropy delta (0.80 / 0.50 / 0.70)
 
 Compares mean 4 KiB block entropy against the baseline for the same region.
 
@@ -67,7 +67,7 @@ Evidence: baseline entropy, current entropy, delta, sample size.
   process idles (RNG pools, hash tables). Mitigated by D3/D4 correlation and by
   the control case, not eliminated.
 
-### D3 — protection flip (0.85 / 0.70)
+### D3: protection flip (0.85 / 0.70)
 
 Diffs `VirtualQueryEx` snapshots. A private region that moves to `NOACCESS`
 scores 0.85; any other flip to `RX`/`RWX` scores 0.70. Evidence: from/to
@@ -80,7 +80,7 @@ protection, region size.
 - False positives: guard pages and stack growth produce flips; filtering to
   private regions ≥ 4 KiB removes most of them.
 
-### D4 — orphan NOACCESS (0.60)
+### D4: orphan NOACCESS (0.60)
 
 A committed private `NOACCESS` region that the baseline did not have. Ordinary
 processes rarely hold large private `NOACCESS` regions for long.
@@ -90,7 +90,7 @@ processes rarely hold large private `NOACCESS` regions for long.
 - False positives: `VirtualAlloc(PAGE_NOACCESS)` guards, some allocators,
   deliberate `PROT_NONE` reservations.
 
-### D5 — idle thread (0.35)
+### D5: idle thread (0.35)
 
 `GetProcessTimes` delta < 25 ms across the poll window, while D3 or D4 fired.
 It does not stand alone; it raises confidence on an existing signal.
@@ -100,7 +100,7 @@ It does not stand alone; it raises confidence on an existing signal.
 - False positives: a process that legitimately idles while a worker thread
   touches memory.
 
-### D6 — key recovery (0.99, optional)
+### D6: key recovery (0.99, optional)
 
 The strongest and most limited rule. It looks for a 60-byte structure in a
 small private region: 12-byte nonce, 16-byte GCM tag, 32-byte key-shaped blob.
@@ -110,7 +110,7 @@ validates the GCM tag. A successful tag check is proof, not a heuristic.
 - Requires `cryptography` (`pip install cryptography`). Without it the rule
   reports `unavailable`, and the matrix records a gap rather than a miss.
 - Only works while ciphertext is readable (`rw` / `rx`). In `noaccess` mode the
-  hunter cannot read the ciphertext, so D6 cannot run — a limit of the
+  hunter cannot read the ciphertext, so D6 cannot run. That is a limit of the
   technique, not of the detector.
 - Format-aware by construction. It knows the header layout because this lab
   defines it. That is why D1–D5 carry the general argument and D6 is the

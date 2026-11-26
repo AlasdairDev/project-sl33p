@@ -10,10 +10,9 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 
-# generated evidence (keep the directory, not the artefacts)
+# generated evidence
 report/out*/
 lab/captures/*.json
-!lab/captures/.gitkeep
 
 # editor / os
 .vs/
@@ -24,9 +23,3 @@ Thumbs.db
 
 # scratch
 *.log
-
-# stray zero-byte file from the initial working directory
-/z
-
-# local build brief, not part of the published repo
-/PROMPT.md
