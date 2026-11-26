@@ -21,7 +21,7 @@ layered with `rpm-ostree` unless there is no alternative.
 | Shared folders | `virtiofsd` at `/usr/libexec/virtiofsd` | OK |
 | Existing VM | `owasp-bwa`, running, user session, 1 GiB, user networking | Reference pattern |
 | RAM | 15 GiB total, **~5.3 GiB available**, 8 GiB swap (4.8 used) | Tight |
-| Internal disk | btrfs `/var/home`, 236 G total, **21 G free** | Too tight for a 64 G VM |
+| Internal disk | btrfs home, 236 G total, **21 G free** | Too tight for a 64 G VM |
 | External disk | an NTFS volume, **386 G free** | Use for VM disk |
 | .NET | SDK 11.0.100 (no local .NET 10 runtime) | Builds `net10.0` via NuGet |
 | Python | 3.15.2 via mise, no `pip` module | Tests need no packages |
